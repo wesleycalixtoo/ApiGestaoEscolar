@@ -1,0 +1,19 @@
+# A seção 'services' é onde definimos os contêineres que compõem a nossa aplicação.
+services:
+  # 'api' é o nome que damos ao nosso serviço/contêiner. Poderia ser qualquer nome (ex: web, app).
+  api:
+    # A instrução 'build: .' diz ao Docker Compose para construir uma imagem
+    # a partir do Dockerfile localizado no diretório atual (.).
+    build: .
+    # A seção 'ports' mapeia portas entre a máquina host e o contêiner.
+    ports:
+      # Mapeia a porta 8000 da sua máquina (host) para a porta 8000 do contêiner.
+      # O formato é "HOST:CONTAINER". Isso permite que você acesse a API em http://localhost:8000.
+      - "8000:8000"
+    # A seção 'volumes' monta um diretório do host para dentro do contêiner.
+    volumes:
+      # Monta o diretório atual ('.') do seu projeto no host para o diretório '/app' dentro do contêiner.
+      # Isso é crucial para o desenvolvimento, pois:
+      # 1. Permite que o 'live-reloading' do Uvicorn funcione, já que as alterações no seu código local são refletidas instantaneamente no contêiner.
+      # 2. Garante que o banco de dados SQLite ('escola.db'), criado pelo contêiner, seja salvo no seu diretório local, persistindo os dados entre as execuções.
+      - .:/app
